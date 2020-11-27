@@ -173,4 +173,36 @@ const updateBooking = async (req, res) => {
   client.close();
 };
 
-module.exports = { getSeats, bookSeat, addBooking, cancelSeat, updateBooking };
+const deleteBooking = async (req, res) => {
+  const client = await MongoClient(MONGO_URI, options);
+  const seatId = req.body.seatId;
+
+  try {
+    await client.connect();
+    const db = await client.db("Flight_1");
+
+    const results = await db.collection("Bookings").deleteOne({ seatId });
+
+    assert.equal(1, results.deletedCount);
+
+    res.status(204).json({
+      status: 204,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 500,
+      message: err.message,
+    });
+  }
+
+  client.close();
+};
+
+module.exports = {
+  getSeats,
+  bookSeat,
+  addBooking,
+  cancelSeat,
+  updateBooking,
+  deleteBooking,
+};
