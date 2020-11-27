@@ -1,19 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React from "react";
+import styled from "styled-components";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { getRowName, getSeatNum } from '../helpers';
-import { range } from '../utils';
+import { getRowName, getSeatNum } from "../helpers";
+import { range } from "../utils";
 
-import Seat from './Seat';
-import { SeatContext } from './SeatContext';
+import Seat from "./Seat";
+import { SeatContext } from "./SeatContext";
 
 function TicketWidget() {
   const {
     state: { hasLoaded, seats, numOfRows, seatsPerRow },
   } = React.useContext(SeatContext);
 
-  if (!hasLoaded) {
+  if (!hasLoaded || !seats) {
     return <CircularProgress />;
   }
   console.log(hasLoaded, seats, numOfRows, seatsPerRow);
@@ -37,7 +37,7 @@ function TicketWidget() {
                     width={36}
                     height={36}
                     price={seat.price}
-                    status={seat.isBooked ? 'unavailable' : 'available'}
+                    status={seat.isBooked ? "unavailable" : "available"}
                   />
                 </SeatWrapper>
               );
